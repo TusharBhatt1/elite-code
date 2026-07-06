@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { HydratedDocument, Schema } from "mongoose";
 
 export interface ITestCase {
 	input: string;
@@ -60,6 +60,14 @@ const problemSchema = new Schema<IProblem>(
 	},
 	{
 		timestamps: true,
+		toJSON: {
+			transform: (_doc, ret) => {
+				delete (ret as any)?.__v;
+				(ret as any).id = ret._id;
+				delete (ret as any)?._id;
+				return ret;
+			},
+		},
 	},
 );
 
