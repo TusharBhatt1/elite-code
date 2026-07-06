@@ -1,10 +1,10 @@
-import { CreateProblemDTO } from "../dtos/problem.dto";
+import { ICreateProblemDTO } from "../validator/problem.validator";
 import { IProblem } from "../models/problem.model";
 import { IProblemRepository } from "../repository/problem.repository";
 import { getSanitizedMarkDown } from "../utils/helpers";
 
 export interface IProblemService {
-	createProblem(problem: CreateProblemDTO): Promise<IProblem>;
+	createProblem(problem: ICreateProblemDTO): Promise<IProblem>;
 	getProblemById(id: string): Promise<IProblem | null>;
 	getAllProblems(): Promise<{ problems: IProblem[]; total: number }>;
 	updateProblem(id: string, problem: IProblem): Promise<IProblem | null>;
@@ -20,7 +20,7 @@ export class ProblemService implements IProblemService {
 		this.problemRepository = problemRepository;
 	}
 
-	async createProblem(problem: CreateProblemDTO): Promise<IProblem> {
+	async createProblem(problem: ICreateProblemDTO): Promise<IProblem> {
 		const { description, editorial } = problem;
 
 		const sanitizedDescription = await getSanitizedMarkDown(description);
