@@ -21,7 +21,7 @@ const problemController = new ProblemController(problemService);
 problemRouter.post(
 	"/create",
 	validateRequestBody(createProblemDTOSchema),
-	problemController.createProblem.bind(problemController),
+	problemController.createProblem,
 );
 
 problemRouter.get("/", problemController.getAllProblems);
