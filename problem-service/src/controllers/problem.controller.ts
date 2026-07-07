@@ -21,9 +21,15 @@ export const ProblemController = {
 		const problem = await problemService.getProblemById(
 			req.params.id as string,
 		);
-
-		res.status(200).json({
-			data: problem,
+		if (problem) {
+			res.status(200).json({
+				data: problem,
+				success: true,
+			});
+		}
+		res.status(404).json({
+			data: null,
+			message: `Problem with ID:${req.params.id} not found`,
 			success: true,
 		});
 	},

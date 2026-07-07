@@ -38,7 +38,7 @@ export class ProblemService implements IProblemService {
 	async getProblemById(id: string): Promise<IProblem | null> {
 		const p = await this.problemRepository.getProblemById(id);
 		if (!p) {
-			throw new Error("Problem not found");
+			return null;
 		}
 
 		return p;
