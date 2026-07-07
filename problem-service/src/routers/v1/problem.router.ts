@@ -7,6 +7,7 @@ import {
 import {
 	createProblemDTOSchema,
 	findByDifficultySchema,
+	findByIdSchema,
 	updatedProblemDTOSchema,
 } from "src/validator/problem.validator.js";
 
@@ -28,7 +29,7 @@ problemRouter.get(
 	ProblemController.findByDifficulty,
 );
 
-problemRouter.get("/:id", ProblemController.getProblemById);
+problemRouter.get("/:id", validateRequestParams(findByIdSchema), ProblemController.getProblemById);
 
 problemRouter.patch(
 	"/:id",

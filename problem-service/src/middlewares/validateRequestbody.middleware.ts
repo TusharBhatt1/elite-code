@@ -23,7 +23,6 @@ export const validateRequestParams =
 	(schema: ZodSchema) =>
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-            console.log(req.params)
 			await schema.parseAsync(req.params);
 			next();
 		} catch (error) {

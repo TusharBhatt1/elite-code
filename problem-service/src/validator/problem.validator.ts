@@ -1,5 +1,6 @@
 import z, { ZodType } from "zod";
 import { ITestCase } from "../models/problem.model";
+import mongoose from "mongoose";
 
 const testCaseDTOSchema: ZodType<ITestCase> = z.object({
 	input: z.string(),
@@ -16,6 +17,15 @@ const createProblemDTOSchema = z.object({
 	editorial: z.string().optional(),
 });
 
+const findByIdSchema = z.object({
+	id: z.string().refine(
+	  (id) => mongoose.Types.ObjectId.isValid(id),
+	  {
+		message: "Invalid MongoDB ObjectId",
+	  }
+	),
+  });
+
 const findByDifficultySchema = z.object({
 	difficulty: z.enum(["easy", "medium", "hard"]),
 });
@@ -29,4 +39,5 @@ export {
 	createProblemDTOSchema,
 	updatedProblemDTOSchema,
 	findByDifficultySchema,
+	findByIdSchema
 };
