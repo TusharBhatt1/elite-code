@@ -9,3 +9,8 @@ export const redisConfig= {
 	HOST:process.env.REDIS_HOST,
 	PORT:process.env.REDIS_PORT
 }
+
+
+export const crossServiceConfig={
+	PROBLEM_SERVICE:process.env.PROBLEM_SERVICE
+}

@@ -6,10 +6,11 @@
   
 	  "baseUrl": ".",
 	  "paths": {
-		"@/*": ["src/*"]
+		"@/*": ["src/*"],
+		"~/*": ["app/*"]
 	  },
   
-	  "rootDir": "./src",
+	  "rootDir": ".",
 	  "outDir": "./dist",
   
 	  "esModuleInterop": true,
