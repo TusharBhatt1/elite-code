@@ -2,7 +2,7 @@ import { logger } from "@/config/logger.config";
 import { createNewRedisConnection } from "@/config/redis.config";
 import { Queue } from "bullmq";
 
-export const submissionQueue = new Queue("submission", {
+export const submissionQueue = new Queue("evalute-submission", {
 	//@ts-ignore
 	connection: createNewRedisConnection(),
 	defaultJobOptions: {

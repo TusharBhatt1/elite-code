@@ -4,7 +4,6 @@ import { redisClient } from "@/config/redis.config";
 import { ISubmission } from "@/models/submission.model";
 import { submissionQueue } from "@/queues/submission.queue";
 import { IProblem } from "apis/problem.api";
-import { Worker } from "bullmq";
 
 export interface ISubmissionJob extends ISubmission {
 	problem: IProblem;
@@ -24,16 +23,3 @@ export async function addSubmissionJob(
 	}
 }
 
-const worker = new Worker(
-	"submission",
-	async (job) => {
-		console.log(job.data);
-	},
-	{
-		connection: {
-			host: redisConfig.HOST,
-			port: Number(redisConfig.PORT),
-      maxRetriesPerRequest:null
-		},
-	},
-);
