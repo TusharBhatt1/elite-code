@@ -6,6 +6,7 @@ export interface ITestCase {
 }
 export interface IProblem {
 	title: string;
+	functionName: string;
 	description: string;
 	difficulty: "easy" | "medium" | "hard";
 	testCases: ITestCase[];
@@ -36,6 +37,12 @@ const problemSchema = new Schema<IProblem>(
 			type: String,
 			required: [true, "Title is required"],
 			maxLength: [100, "Title must be less than 100 characters"],
+			trim: true,
+		},
+		functionName: {
+			type: String,
+			required: [true, "Function name is required"],
+			maxLength: [100, "Function name must be less than 25 characters"],
 			trim: true,
 		},
 		description: {

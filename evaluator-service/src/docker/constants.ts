@@ -33,3 +33,5 @@ export const LANGUAGE_CONFIG = {
     run: "java Main",
   },
 } as const;
+
+export const JAVASCRIPT_IMAGE="node:latest"

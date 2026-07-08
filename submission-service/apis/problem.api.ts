@@ -11,6 +11,7 @@ export interface IProblem {
 	description: string;
 	difficulty: "easy" | "medium" | "hard";
 	testCases: ITestCase[];
+	functionName:string;
 	editorial?: string;
 	createdAt: Date;
 	updatedAt: Date;

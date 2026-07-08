@@ -5,7 +5,7 @@ export interface ICreateDockerContainerOptions {
 	name?: string;
 	imageName: string;
 	commands?: string[];
-	memoryLimit: number;
+	memoryLimit?: number;
 }
 
 export async function createDockerContainer({
@@ -23,7 +23,7 @@ export async function createDockerContainer({
 			AttachStderr: true,
 			Tty: false,
 			HostConfig: {
-				Memory: memoryLimit,
+				Memory: memoryLimit || 1024 * 1024 * 1024, //2GB
 				PidsLimit: 100, // to limit number of processes
 				CpuQuota: 50000,
 				CpuPeriod: 100000,

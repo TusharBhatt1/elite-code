@@ -9,6 +9,7 @@ const testCaseDTOSchema: ZodType<ITestCase> = z.object({
 
 const createProblemDTOSchema = z.object({
 	title: z.string().min(1, "Title is required"),
+	functionName: z.string().min(1, "Function name is required"),
 	description: z.string().min(1, "Description is required"),
 	difficulty: z.enum(["easy", "medium", "hard"]),
 	testCases: z
@@ -18,13 +19,10 @@ const createProblemDTOSchema = z.object({
 });
 
 const findByIdSchema = z.object({
-	id: z.string().refine(
-	  (id) => mongoose.Types.ObjectId.isValid(id),
-	  {
+	id: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
 		message: "Invalid MongoDB ObjectId",
-	  }
-	),
-  });
+	}),
+});
 
 const findByDifficultySchema = z.object({
 	difficulty: z.enum(["easy", "medium", "hard"]),
@@ -39,5 +37,5 @@ export {
 	createProblemDTOSchema,
 	updatedProblemDTOSchema,
 	findByDifficultySchema,
-	findByIdSchema
+	findByIdSchema,
 };

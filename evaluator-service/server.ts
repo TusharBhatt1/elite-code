@@ -3,7 +3,6 @@ import { logger } from "./src/config/logger.config";
 import { v1Router } from "./src/routers/index.router";
 import { startEvaluationWorkers } from "./src/workers/evaluate-submission.worker";
 import { pullAllImages } from "./src/docker/utils/pullImage.util";
-import { createDockerContainer } from "./src/docker/utils/createContainer.util";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
