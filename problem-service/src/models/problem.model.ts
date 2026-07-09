@@ -6,7 +6,10 @@ export interface ITestCase {
 }
 export interface IProblem {
 	title: string;
-	functionName: string;
+	function: {
+		name: string;
+		parameters: string[];
+	};
 	description: string;
 	difficulty: "easy" | "medium" | "hard";
 	testCases: ITestCase[];
@@ -31,6 +34,16 @@ const testSchema = new mongoose.Schema<ITestCase>(
 	},
 );
 
+const functionSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: [true, "Function name is required"],
+		maxLength: [100, "Function name must be less than 25 characters"],
+		trim: true,
+	},
+	parameters: [String],
+});
+
 const problemSchema = new Schema<IProblem>(
 	{
 		title: {
@@ -39,12 +52,7 @@ const problemSchema = new Schema<IProblem>(
 			maxLength: [100, "Title must be less than 100 characters"],
 			trim: true,
 		},
-		functionName: {
-			type: String,
-			required: [true, "Function name is required"],
-			maxLength: [100, "Function name must be less than 25 characters"],
-			trim: true,
-		},
+		function: { type: functionSchema, required: true },
 		description: {
 			type: String,
 			required: [true, "Description is requied."],

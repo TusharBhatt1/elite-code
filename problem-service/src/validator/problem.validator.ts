@@ -9,7 +9,10 @@ const testCaseDTOSchema: ZodType<ITestCase> = z.object({
 
 const createProblemDTOSchema = z.object({
 	title: z.string().min(1, "Title is required"),
-	functionName: z.string().min(1, "Function name is required"),
+	function: z.object({
+		name: z.string().min(1, "Function name is required"),
+		parameters: z.array(z.string().min(1, "Parameter name is required")),
+	}),
 	description: z.string().min(1, "Description is required"),
 	difficulty: z.enum(["easy", "medium", "hard"]),
 	testCases: z
