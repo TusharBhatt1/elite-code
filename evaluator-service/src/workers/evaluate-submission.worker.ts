@@ -3,6 +3,7 @@ import { logger } from "@/config/logger.config";
 import { createNewRedisConnection } from "@/config/redis.config";
 import { createDockerContainer } from "@/docker/utils/createContainer.util";
 import { JAVASCRIPT_IMAGE } from "@/docker/constants";
+import { getWrapperJavascriptCode } from "@/docker/utils/wrappedCode.util";
 
 async function setupEvaluationWorker() {
 	const worker = new Worker(
@@ -16,8 +17,8 @@ async function setupEvaluationWorker() {
 
 			await container?.start();
 			const exec = await container?.exec({
-				Cmd: ["node", "-e", code],
-				AttachStdin:true,
+				Cmd: ["node", "-e", getWrapperJavascriptCode(problem, code)],
+				AttachStdin: true,
 				AttachStdout: true,
 				AttachStderr: true,
 			});
