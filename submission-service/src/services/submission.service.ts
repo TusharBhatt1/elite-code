@@ -1,5 +1,5 @@
 import { logger } from "@/config/logger.config";
-import { ISubmission, SubmissionStatus } from "@/models/submission.model";
+import { ISubmission, SubmissionLanguage, SubmissionStatus } from "@/models/submission.model";
 import { addSubmissionJob } from "@/producers/submission.producer";
 import { ISubmissionRepository } from "@/repositories/submission.repository";
 import { getProblemById } from "apis/problem.api";

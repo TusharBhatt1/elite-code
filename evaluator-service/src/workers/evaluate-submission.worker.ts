@@ -14,6 +14,7 @@ async function setupEvaluationWorker() {
 		async (job) => {
 			logger.info(`Proccessing job ${job.id}`);
 			const { id: submissionId, problem, code, language } = job.data;
+			
 			const container = await createDockerContainer({
 				imageName: JAVASCRIPT_IMAGE,
 			});
@@ -37,21 +38,21 @@ async function setupEvaluationWorker() {
 					expected: any;
 					actual: any;
 					passed: boolean;
-					error?:{
-						name:string,
-						message:string
-					}
+					error?: {
+						name: string;
+						message: string;
+					};
 				}[];
 			};
 
-			console.log(stdout)
-			console.log(stderr)
+			console.log(stdout);
+			console.log(stderr);
 
 			await container?.kill();
 			await container?.remove();
 
 			const allPassed = result.results.every((r) => r.passed);
-			const error=result.results.some((r)=>r.error)
+			const error = result.results.some((r) => r.error);
 
 			await updateSubmissionStatus(allPassed, error, submissionId);
 		},

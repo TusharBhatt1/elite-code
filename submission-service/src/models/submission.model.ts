@@ -10,10 +10,10 @@ export enum SubmissionStatus {
 }
 
 export enum SubmissionLanguage {
-	CPP = "cpp",
-	PYTHON = "python",
 	JAVASCRIPT = "javascript",
-	JAVA = "java",
+	// CPP = "cpp",
+	// PYTHON = "python",
+	// JAVA = "java",
 }
 export interface ISubmission {
 	problemId: string;
