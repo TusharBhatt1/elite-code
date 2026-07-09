@@ -4,10 +4,10 @@ import { createNewRedisConnection } from "@/config/redis.config";
 import { createDockerContainer } from "@/docker/utils/createContainer.util";
 import { JAVASCRIPT_IMAGE } from "@/docker/constants";
 import { getWrapperJavascriptCode } from "@/docker/utils/wrappedCode.util";
-import { Writable } from "stream";
 import { DockerLogCapturer } from "./utils/capture-docker-logs";
 import { updateSubmissionStatus } from "@/apis/updateSubmissionStatus";
 
+//TODO: SYNTAX ERROR
 async function setupEvaluationWorker() {
 	const worker = new Worker(
 		"submission",
