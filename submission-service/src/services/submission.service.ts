@@ -7,19 +7,28 @@ import {
 } from "@/models/submission.model";
 import { addSubmissionJob } from "@/producers/submission.producer";
 import { ISubmissionRepository } from "@/repositories/submission.repository";
+import { IPagination } from "@/utils/pagination/parsePagination.utils";
 import { getProblemById } from "apis/problem.api";
 export interface ISubmissionService {
 	createSubmission(submission: ISubmission): Promise<ISubmission>;
 
 	findSubmissionById(id: string): Promise<ISubmission | null>;
 
-	findSubmissionsByProblemId(problemId: string): Promise<ISubmission[]>;
+	findSubmissionsByProblemId(
+		problemId: string,
+		pagination: IPagination,
+		search: string,
+	): Promise<ISubmission[]>;
 
 	updateSubmissionStatus(
 		id: string,
 		status: SubmissionStatus,
 	): Promise<ISubmission | null>;
-	addResult(id: string, status: SubmissionStatus,result: ISubmissionResult): Promise<ISubmission | null>;
+	addResult(
+		id: string,
+		status: SubmissionStatus,
+		result: ISubmissionResult,
+	): Promise<ISubmission | null>;
 
 	deleteSubmissionById(id: string): Promise<boolean>;
 }
@@ -55,8 +64,12 @@ export class SubmissionService implements ISubmissionService {
 		return this.submissionRepository.findById(id);
 	}
 
-	async findSubmissionsByProblemId(problemId: string): Promise<ISubmission[]> {
-		return this.submissionRepository.findByProblemId(problemId);
+	async findSubmissionsByProblemId(
+		problemId: string,
+		pagination: IPagination,
+		search: string,
+	): Promise<ISubmission[]> {
+		return this.submissionRepository.findByProblemId(problemId,pagination,search);
 	}
 
 	async updateSubmissionStatus(
@@ -72,7 +85,7 @@ export class SubmissionService implements ISubmissionService {
 
 		result: ISubmissionResult,
 	): Promise<ISubmission | null> {
-		return this.submissionRepository.addResult(id,status, result);
+		return this.submissionRepository.addResult(id, status, result);
 	}
 
 	async deleteSubmissionById(id: string): Promise<boolean> {

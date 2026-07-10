@@ -37,3 +37,4 @@ submissionRouter.post(
 	validateRequestBody(addResultBodySchema),
 	SubmissionController.addResult,
 );
+submissionRouter.get("/problem/:problemId",SubmissionController.getSubmissionsByProblemId)

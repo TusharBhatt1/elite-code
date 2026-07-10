@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { SubmissionRepository } from "@/repositories/submission.repository";
 import { SubmissionService } from "@/services/submission.service";
 import { ISubmissionResult, SubmissionStatus } from "@/models/submission.model";
+import { parsePagination } from "@/utils/pagination/parsePagination.utils";
 
 const submissionRepository = new SubmissionRepository();
 const submissionService = new SubmissionService(submissionRepository);
@@ -45,8 +46,13 @@ export const SubmissionController = {
 	},
 
 	async getSubmissionsByProblemId(req: Request, res: Response): Promise<void> {
+		const pagination = parsePagination(req.query);
+		const search: string = req.query.search ? String(req.query.search) :  ''
+
 		const submissions = await submissionService.findSubmissionsByProblemId(
 			req.params.problemId as string,
+			pagination,
+			search
 		);
 
 		res.status(200).json({
