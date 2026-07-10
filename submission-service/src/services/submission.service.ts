@@ -7,7 +7,8 @@ import {
 } from "@/models/submission.model";
 import { addSubmissionJob } from "@/producers/submission.producer";
 import { ISubmissionRepository } from "@/repositories/submission.repository";
-import { IPagination } from "@/utils/pagination/parsePagination.utils";
+import { IPaginatedResponse } from "@/utils/pagination/createPaginatedData";
+import { IPaginationOptions } from "@/utils/pagination/parsePagination.utils";
 import { getProblemById } from "apis/problem.api";
 export interface ISubmissionService {
 	createSubmission(submission: ISubmission): Promise<ISubmission>;
@@ -16,9 +17,9 @@ export interface ISubmissionService {
 
 	findSubmissionsByProblemId(
 		problemId: string,
-		pagination: IPagination,
+		pagination: IPaginationOptions,
 		search: string,
-	): Promise<ISubmission[]>;
+	): Promise<IPaginatedResponse<ISubmission>>;
 
 	updateSubmissionStatus(
 		id: string,
@@ -66,9 +67,9 @@ export class SubmissionService implements ISubmissionService {
 
 	async findSubmissionsByProblemId(
 		problemId: string,
-		pagination: IPagination,
+		pagination: IPaginationOptions,
 		search: string,
-	): Promise<ISubmission[]> {
+	): Promise<IPaginatedResponse<ISubmission>> {
 		return this.submissionRepository.findByProblemId(problemId,pagination,search);
 	}
 

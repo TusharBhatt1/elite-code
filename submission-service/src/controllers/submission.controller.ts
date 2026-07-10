@@ -47,12 +47,12 @@ export const SubmissionController = {
 
 	async getSubmissionsByProblemId(req: Request, res: Response): Promise<void> {
 		const pagination = parsePagination(req.query);
-		const search: string = req.query.search ? String(req.query.search) :  ''
+		const search: string = req.query.search ? String(req.query.search) : "";
 
 		const submissions = await submissionService.findSubmissionsByProblemId(
 			req.params.problemId as string,
 			pagination,
-			search
+			search,
 		);
 
 		res.status(200).json({

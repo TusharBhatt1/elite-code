@@ -4,7 +4,9 @@ import {
 	SubmissionModel,
 	SubmissionStatus,
 } from "@/models/submission.model";
-import { IPagination } from "@/utils/pagination/parsePagination.utils";
+import { IPaginationOptions } from "@/utils/pagination/parsePagination.utils";
+import { BaseRepository } from "./base.repository";
+import { IPaginatedResponse } from "@/utils/pagination/createPaginatedData";
 
 export interface ISubmissionRepository {
 	create(submission: ISubmission): Promise<ISubmission>;
@@ -21,12 +23,19 @@ export interface ISubmissionRepository {
 	): Promise<ISubmission | null>;
 	findByProblemId(
 		problemId: string,
-		pagination: IPagination,
+		pagination: IPaginationOptions,
 		search: string,
-	): Promise<ISubmission[]>;
+	): Promise<IPaginatedResponse<ISubmission>>;
 }
 
-export class SubmissionRepository implements ISubmissionRepository {
+export class SubmissionRepository
+	extends BaseRepository<ISubmission>
+	implements ISubmissionRepository
+{
+	constructor() {
+		super(SubmissionModel);
+	}
+
 	async create(submission: ISubmission): Promise<ISubmission> {
 		return await SubmissionModel.create(submission);
 	}
@@ -35,11 +44,21 @@ export class SubmissionRepository implements ISubmissionRepository {
 	}
 	async findByProblemId(
 		problemId: string,
-		pagination: IPagination,
+		pagination: IPaginationOptions,
 		search: string,
-	): Promise<ISubmission[]> {
-		return await SubmissionModel.find({
+	): Promise<IPaginatedResponse<ISubmission>> {
+		const filter = {
 			problemId,
+			...(search && {
+				language: {
+					$regex: search,
+					$options: "i",
+				},
+			}),
+		};
+		return this.paginate({
+			filter,
+			pagination,
 		});
 	}
 	async updateStatus(
