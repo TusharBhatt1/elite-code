@@ -2,6 +2,7 @@ import express from "express";
 import { logger } from "./src/config/logger.config";
 import { connectDB } from "./src/config/db.config";
 import { v1Router } from "./src/routers/index.router";
+import "./src/config/redis.config";
 
 const PORT = process.env.PORT || 3000;
 const app = express();

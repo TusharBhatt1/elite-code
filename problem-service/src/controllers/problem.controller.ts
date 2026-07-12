@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ProblemService } from "../services/problem.service";
 import { ProblemRepository } from "../repository/problem.repository";
+import { redisClient } from "@/config/redis.config";
 
 const problemRepository = new ProblemRepository();
 
@@ -18,10 +19,22 @@ export const ProblemController = {
 	},
 
 	async getProblemById(req: Request, res: Response): Promise<void> {
-		const problem = await problemService.getProblemById(
-			req.params.id as string,
-		);
+		const problemId = req.params.id;
+		const problemKey = `problem-${problemId}`;
+		const cachedProblem = await redisClient.get(problemKey);
+
+		if (cachedProblem) {
+			res.status(200).json({
+				data: JSON.parse(cachedProblem),
+				success: true,
+				message: "From redis cache",
+			});
+			return;
+		}
+
+		const problem = await problemService.getProblemById(problemId as string);
 		if (problem) {
+			await redisClient.set(problemKey, JSON.stringify(problem), "EX", 300);
 			res.status(200).json({
 				data: problem,
 				success: true,
