@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { submitSolution } from "../apis/queries/mutations/submission";
+import { submitSolution } from "../apis/mutations/submission";
 
 export function useSubmitSolution() {
   return useMutation({
