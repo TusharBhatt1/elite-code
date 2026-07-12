@@ -12,7 +12,7 @@ async function setupRunWorker() {
 
 			const result = await initializeContainerAndExecuteCode({ problem, code });
 
-			await redisClient.set(`run_${job.id}`, JSON.stringify(result), "EX", 300);
+			await redisClient.set(`run_${job.id}`, JSON.stringify(result), "EX", 120);
 			logger.info(`run ${job.id} result added to Redis`);
 		},
 		{
