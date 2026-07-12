@@ -1,0 +1,37 @@
+{
+	"name": "auth-service",
+	"version": "1.0.0",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "tsx watch ./server.ts",
+		"start": "tsx server.ts"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"bcrypt": "^6.0.0",
+		"cors": "^2.8.6",
+		"dotenv": "^17.4.2",
+		"express": "^5.2.1",
+		"jsonwebtoken": "^9.0.3",
+		"marked": "^18.0.5",
+		"mongoose": "^9.7.3",
+		"sanitize-html": "^2.17.5",
+		"turndown": "^7.2.4",
+		"winston": "^3.19.0",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^6.0.0",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.6",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/node": "^26.1.0",
+		"@types/sanitize-html": "^2.16.1",
+		"@types/turndown": "^5.0.6",
+		"tsx": "^4.23.0"
+	}
+}
