@@ -11,12 +11,13 @@ export const RunController = {
 		if (!problem) {
 			throw new Error("Problem not found");
 		}
-		// => add submission to bull queue
+		// => add run to bull queue
 		const jobId = await addRunJob({
 			code: req.body.code,
 			language: req.body.language,
 			problem,
 		});
+        
 		const runId = `run_${jobId}`;
 		await redisClient.set(runId, "PENDING");
 
