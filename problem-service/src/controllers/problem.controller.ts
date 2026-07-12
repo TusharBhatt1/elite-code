@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProblemService } from "../services/problem.service";
 import { ProblemRepository } from "../repository/problem.repository";
 import { redisClient } from "@/config/redis.config";
+import { parseCursorData } from "@/utils/pagination/parseCursorData";
 
 const problemRepository = new ProblemRepository();
 
@@ -49,7 +50,13 @@ export const ProblemController = {
 	},
 
 	async getAllProblems(req: Request, res: Response): Promise<void> {
-		const result = await problemService.getAllProblems();
+		const { cursor, direction, search } = parseCursorData(req.query);
+
+		const result = await problemService.getAllProblems({
+			cursor,
+			direction,
+			search,
+		});
 
 		res.status(200).json({
 			data: result,

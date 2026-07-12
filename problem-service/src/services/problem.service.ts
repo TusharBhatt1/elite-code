@@ -2,11 +2,15 @@ import { ICreateProblemDTO } from "../validator/problem.validator";
 import { IProblem } from "../models/problem.model";
 import { IProblemRepository } from "../repository/problem.repository";
 import { getSanitizedMarkDown } from "../utils/helpers";
+import { ICursorData } from "@/utils/pagination/parseCursorData";
+import { ICursorPaginatedResponse } from "@/repository/base.repository";
 
 export interface IProblemService {
 	createProblem(problem: ICreateProblemDTO): Promise<IProblem>;
 	getProblemById(id: string): Promise<IProblem | null>;
-	getAllProblems(): Promise<{ problems: IProblem[]; total: number }>;
+	getAllProblems(
+		data: ICursorData,
+	): Promise<ICursorPaginatedResponse<IProblem>>;
 	updateProblem(id: string, problem: IProblem): Promise<IProblem | null>;
 	deleteProblem(id: string): Promise<boolean>;
 	findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>;
@@ -44,8 +48,10 @@ export class ProblemService implements IProblemService {
 		return p;
 	}
 
-	async getAllProblems(): Promise<{ problems: IProblem[]; total: number }> {
-		return await this.problemRepository.getAllProblems();
+	async getAllProblems(
+		data: ICursorData,
+	): Promise<ICursorPaginatedResponse<IProblem>> {
+		return await this.problemRepository.getAllProblems(data);
 	}
 
 	async updateProblem(id: string, problem: IProblem): Promise<IProblem | null> {

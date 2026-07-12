@@ -1,16 +1,27 @@
+import { ICursorData } from "@/utils/pagination/parseCursorData";
 import { IProblem, ProblemModel } from "../models/problem.model";
+import { BaseRepository, ICursorPaginatedResponse } from "./base.repository";
 
 export interface IProblemRepository {
 	createProblem(problem: Partial<IProblem>): Promise<IProblem>;
 	getProblemById(id: string): Promise<IProblem | null>;
-	getAllProblems(): Promise<{ problems: IProblem[]; total: number }>;
+	getAllProblems(
+		data: ICursorData,
+	): Promise<ICursorPaginatedResponse<IProblem>>;
 	updateProblem(id: string, problem: IProblem): Promise<IProblem | null>;
 	deleteProblem(id: string): Promise<boolean>;
 	findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>;
 	searchProblems(query: string): Promise<IProblem[]>;
 }
 
-export class ProblemRepository implements IProblemRepository {
+export class ProblemRepository
+	extends BaseRepository<IProblem>
+	implements IProblemRepository
+{
+	constructor() {
+		super(ProblemModel);
+	}
+
 	async createProblem(problem: Partial<IProblem>): Promise<IProblem> {
 		return await ProblemModel.create(problem);
 	}
@@ -19,10 +30,29 @@ export class ProblemRepository implements IProblemRepository {
 		return await ProblemModel.findById(id);
 	}
 
-	async getAllProblems(): Promise<{ problems: IProblem[]; total: number }> {
-		const problems = await ProblemModel.find().sort({ createdAt: -1 });
+	async getAllProblems(
+		data: ICursorData,
+	): Promise<ICursorPaginatedResponse<IProblem>> {
+		const { cursor, direction, search } = data;
 
-		return { problems, total: problems.length };
+		const filter = {};
+
+		if (search) {
+			//@ts-ignore
+			filter.title = {
+				$regex: search,
+				$options: "i",
+			};
+		}
+
+		return this.cursorPaginate({
+			cursor,
+			direction,
+			filter,
+		});
+		// const problems = await ProblemModel.find().sort({ createdAt: -1 });
+
+		// return { problems, total: problems.length };
 	}
 	async updateProblem(id: string, problem: IProblem): Promise<IProblem | null> {
 		const updatedProblem = await ProblemModel.findByIdAndUpdate(id, problem, {
