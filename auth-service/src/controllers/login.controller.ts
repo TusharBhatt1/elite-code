@@ -46,7 +46,11 @@ export const LoginController = {
 				expiresIn: "1D",
 			});
 
-			res.cookie("leetcode_user", token);
+			res.cookie("leetcode_user", token, {
+				httpOnly: true,
+				sameSite: true,
+			});
+			
 			res.status(200).json({
 				message: "Logged in successfull",
 				success: true,
