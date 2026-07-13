@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema(
 		email: {
 			type: String,
 			required: [true, "Name is required"],
-			unique: true,
 			lowerCase: true,
 			trim: true,
 			match: [
@@ -35,7 +34,7 @@ const userSchema = new mongoose.Schema(
 			enum: Object.values(UserRole),
 			required: [
 				true,
-				"Role is required, valid roles are candidate, problem_setter or admin ",
+				"Role is required, valid roles are candidate, problem_setter or admin",
 			],
 		},
 	},
@@ -52,5 +51,20 @@ const userSchema = new mongoose.Schema(
 		},
 	},
 );
+
+userSchema.pre("save", async function () {
+	const { email, role } = this;
+
+	const [userExists] = await UserModel.find({
+		email,
+		role,
+	});
+
+	if (userExists) {
+		throw new Error(
+			"User already exists with same email and role, one email can have multiple roles not same",
+		);
+	}
+});
 
 export const UserModel = mongoose.model("user", userSchema);

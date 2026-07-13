@@ -9,12 +9,15 @@ const signUpService = new SignUpService(signUpRepository);
 
 export const SignUpController = {
 	async signUp(req: Request, res: Response) {
-		const { success, user, message } = await signUpService.createUser(req.body);
-		if (success && user) {
+		try {
+			const { success, user, message } = await signUpService.createUser(
+				req.body,
+			);
+
 			const payload = {
-				id: user.id,
-				email: user.email,
-				role: user.role,
+				id: user?.id,
+				email: user?.email,
+				role: user?.role,
 			};
 
 			const token = jwt.sign(payload, authConfig.JWT_PRIVATE_KEY!, {
@@ -32,12 +35,11 @@ export const SignUpController = {
 				user,
 				success,
 			});
-		}
-
-		if (!success) {
-			return res.status(409).json({
-				message,
-				success,
+		} catch (error) {
+			res.status(409).json({
+				message:
+					error instanceof Error ? error.message : "Something went wrong!",
+				success: false,
 			});
 		}
 	},

@@ -21,26 +21,9 @@ export class SignUpService implements ISignUpService {
 	}
 
 	async createUser(userDetails: IAuthUserDetails): Promise<IAuthResponse> {
-		const { name, role, email, password } = userDetails;
-
-		if (!email || !password || !role || !name) {
-			return {
-				message: "Email, password, role and name are required.",
-				success: false,
-			};
-		}
-		const [userExists] = await UserModel.find({
-			email,
-		});
+		const { password } = userDetails;
 
 		const hashedPassword = await bcrypt.hash(password, 10);
-
-		if (userExists) {
-			return {
-				message: `User already exists with ${email}`,
-				success: false,
-			};
-		}
 
 		const newUser = await this.signUpRepository.signup({
 			...userDetails,
