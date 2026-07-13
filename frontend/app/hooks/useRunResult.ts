@@ -13,7 +13,7 @@ export function useRunResult(runId?: string) {
       const status = query.state.data?.status;
 
       if (status === "PENDING") {
-        return 1000;
+        return 2000;
       }
 
       return false;
