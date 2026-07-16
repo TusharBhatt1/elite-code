@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Terminal } from 'lucide-react';
+import { Terminal, Plus } from 'lucide-react';
 
 export function Header() {
   return (
@@ -18,8 +18,9 @@ export function Header() {
           <Link href="/" className="text-sm hover:text-primary transition-colors">
             Problems
           </Link>
-          <Link href="/login" className="text-sm hover:text-primary transition-colors">
-            Login
+          <Link href="/create-problem" className="flex items-center gap-1 text-sm hover:text-primary transition-colors font-medium">
+            <Plus className="h-4 w-4" />
+            Create Problem
           </Link>
         </nav>
       </div>
