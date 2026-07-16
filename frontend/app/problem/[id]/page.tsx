@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import Editor from '@monaco-editor/react';
 import { toast } from 'sonner';
 import { CheckCircle2, XCircle } from 'lucide-react';
@@ -398,13 +399,21 @@ export default function ProblemPage() {
           <div>
             <h1 className="text-2xl font-bold">{problem.title}</h1>
 
-            <Badge
-              className={`mt-2 border capitalize ${getDifficultyColor(
-                problem.difficulty
-              )}`}
-            >
-              {problem.difficulty}
-            </Badge>
+            <div className="flex items-center gap-2 mt-3">
+              <Badge
+                className={`border capitalize ${getDifficultyColor(
+                  problem.difficulty
+                )}`}
+              >
+                {problem.difficulty}
+              </Badge>
+              <Link
+                href={`/problem/${problem.id}/submissions`}
+                className="text-sm text-primary hover:underline ml-auto"
+              >
+                View Submissions →
+              </Link>
+            </div>
           </div>
 
           <Tabs defaultValue="description">
