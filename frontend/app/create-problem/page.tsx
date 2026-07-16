@@ -80,6 +80,7 @@ export default function CreateProblemPage() {
 				editorial: "",
 			});
 		} catch (error: any) {
+
 			const errorMsg =
 				error?.response?.data?.message ||
 				"Failed to create problem. Please try again.";
@@ -175,7 +176,8 @@ export default function CreateProblemPage() {
 							<Label htmlFor="difficulty">Difficulty</Label>
 							<Select
 								value={formData.difficulty}
-								onValueChange={(val: any) => handleChange("difficulty", val)}
+								//@ts-expect-error todo
+								onValueChange={(val) => handleChange("difficulty", val)}
 								disabled={isLoading}
 							>
 								<SelectTrigger id="difficulty">

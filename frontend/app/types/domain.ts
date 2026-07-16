@@ -80,7 +80,7 @@ export interface TestCaseResult {
 export interface RunResult {
   runId: string;
   status: RunStatus;
-  result?: unknown;
+  result?: unknown | { results?: any[] };
   error?: string;
 }
 
