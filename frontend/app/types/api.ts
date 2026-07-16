@@ -40,7 +40,15 @@ export interface SubmitSolutionResponse {
 
 export interface GetSubmissionResponse extends ApiResponse<Submission> {}
 
-export interface GetSubmissionsResponse extends ApiResponse<Submission[]> {}
+export interface GetSubmissionsResponse {
+	data: Submission[];
+	total: number;
+	page: number;
+	limit: number;
+	totalPages: number;
+	hasNextPage: boolean;
+	hasPreviousPage: boolean;
+}
 
 export interface RunCodeRequest {
 	problemId: string;

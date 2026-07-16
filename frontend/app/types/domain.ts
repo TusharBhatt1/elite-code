@@ -62,7 +62,12 @@ export enum SubmissionStatus {
 }
 
 export interface SubmissionResult {
-  results: TestCaseResult[];
+  results?: TestCaseResult[];
+  error?: {
+    name: string;
+    message: string;
+  };
+  success?: boolean;
 }
 
 export interface TestCaseResult {

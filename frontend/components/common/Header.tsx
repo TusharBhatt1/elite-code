@@ -19,6 +19,9 @@ export function Header() {
           <Link href="/" className="text-sm hover:text-primary transition-colors">
             Problems
           </Link>
+          <Link href="/submissions" className="text-sm hover:text-primary transition-colors">
+            My Submissions
+          </Link>
           <Link href="/create-problem" className="flex items-center gap-1 text-sm hover:text-primary transition-colors font-medium">
             <Plus className="h-4 w-4" />
             Create Problem
