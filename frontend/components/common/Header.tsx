@@ -12,7 +12,7 @@ export function Header() {
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
             <Terminal className="h-4 w-4 text-white" />
           </div>
-          <span className="font-semibold text-lg">CodeChallenge</span>
+          <span className="font-semibold text-lg">elitecode</span>
         </Link>
 
         <nav className="flex items-center gap-6">

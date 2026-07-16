@@ -60,7 +60,7 @@ export default function SignupPage() {
 			}
 
 			toast.success("Account created successfully!", {
-				description: "Welcome to CodeChallenge!",
+				description: "Welcome to elitecode!",
 			});
 			router.push("/");
 		} catch (err: unknown) {
@@ -78,7 +78,7 @@ export default function SignupPage() {
 					<div className="text-center mb-8">
 						<h1 className="text-2xl font-bold">Create account</h1>
 						<p className="text-muted-foreground mt-2">
-							Join CodeChallenge and start solving
+							Join elitecode and start solving
 						</p>
 					</div>
 

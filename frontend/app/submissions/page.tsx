@@ -79,7 +79,7 @@ export default function SubmissionsPage() {
 						</p>
 					</div>
 
-					{submissions.length === 0 ? (
+					{submissions.data.length === 0 ? (
 						<div className="rounded border border-dashed p-8 text-center">
 							<p className="text-muted-foreground">No submissions yet</p>
 							<Link href="/">
