@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Terminal, Plus } from 'lucide-react';
+import { ProfileSection } from './ProfileSection';
 
 export function Header() {
   return (
@@ -22,6 +23,7 @@ export function Header() {
             <Plus className="h-4 w-4" />
             Create Problem
           </Link>
+          <ProfileSection />
         </nav>
       </div>
     </header>

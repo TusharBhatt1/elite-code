@@ -15,8 +15,10 @@ import {
 import { Header } from '@/components/common/Header';
 import { useLogin } from '../hooks/useLogin';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const router = useRouter();
   const { mutateAsync: loginUser, isPending } = useLogin();
 
   const [email, setEmail] = useState('');
@@ -32,14 +34,29 @@ export default function LoginPage() {
 
     setServerError('');
     try {
-      const data = await loginUser({
+      const response = await loginUser({
         email,
         password,
         role,
-      });
-      console.log(data);
-    } catch (err:any) {
-      console.error(err);
+      } as any);
+
+      if (!response?.user || !response?.token) {
+        setServerError('Invalid response from server. Please try again.');
+        return;
+      }
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          id: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          role,
+        })
+      );
+      localStorage.setItem('token', response.token);
+      router.push('/');
+    } catch (err: any) {
       setServerError(err?.response?.data?.message || 'Login failed. Check your credentials.');
     }
   };

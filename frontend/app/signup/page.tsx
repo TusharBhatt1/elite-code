@@ -16,7 +16,7 @@ import {
 import { Header } from "@/components/common/Header";
 import { useSignup } from "../hooks/useSignup";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
 	const { mutateAsync: signupUser, isPending } = useSignup();
@@ -24,8 +24,12 @@ export default function SignupPage() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [role, setRole] = useState<"candidate" | "problem_setter">("candidate");
+	const [role, setRole] = useState<"candidate" | "problem_setter" | "admin">(
+		"admin",
+	);
 	const [error, setError] = useState("");
+
+	const router = useRouter();
 
 	const isValid = name && email && password && password.length >= 8 && role;
 
@@ -35,17 +39,31 @@ export default function SignupPage() {
 
 		setError("");
 		try {
-			await signupUser({
+			const response = await signupUser({
 				name,
 				email,
 				password,
 				role,
 			});
+
+			// Store user info in localStorage
+			if (response?.user) {
+				localStorage.setItem(
+					"user",
+					JSON.stringify({
+						id: response.user.id,
+						name,
+						email: response.user.email,
+						role,
+					}),
+				);
+			}
+
 			toast.success("Account created successfully!", {
 				description: "Welcome to CodeChallenge!",
 			});
-			redirect("/");
-		} catch (err: any) {
+			router.push("/");
+		} catch (err: unknown) {
 			console.error(err);
 			const errorMsg = "Signup failed. Please try again.";
 			setError(errorMsg);
@@ -114,25 +132,27 @@ export default function SignupPage() {
 									<Label htmlFor="role">Role</Label>
 									<Select
 										value={role}
-										onValueChange={(val: any) => setRole(val)}
+										//@ts-expect-error todo
+										onValueChange={(val) => setRole(val)}
 										disabled={isPending}
 									>
 										<SelectTrigger id="role">
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="candidate">
-												Candidate (Solve problems)
-											</SelectItem>
+											<SelectItem value="admin">Admin (Recommended)</SelectItem>
 											<SelectItem value="problem_setter">
-												Problem Setter (Create problems)
+												Problem Setter
 											</SelectItem>
+											<SelectItem value="candidate">Candidate</SelectItem>
 										</SelectContent>
 									</Select>
 									<p className="text-xs text-muted-foreground">
-										{role === "candidate"
-											? "Solve coding challenges and improve your skills"
-											: "Create and manage coding problems"}
+										{role === "admin"
+											? "Create problems, add solutions, and manage the platform"
+											: role === "problem_setter"
+												? "Create and manage coding problems"
+												: "Solve coding challenges and improve your skills"}
 									</p>
 								</div>
 

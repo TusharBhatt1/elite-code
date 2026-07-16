@@ -15,7 +15,7 @@ export function proxy(request: NextRequest) {
 		});
 	} catch (error) {
 		console.log(error);
-		// return NextResponse.redirect(new URL("/login", request.url));
+		return NextResponse.redirect(new URL("/login", request.url));
 	}
 }
 
