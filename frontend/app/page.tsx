@@ -101,6 +101,7 @@ export default function ProblemsPage() {
                   </TableCell>
                 </TableRow>
               ) : (
+
                 data.problems.map((problem: any) => (
                   <TableRow key={problem.id} className="hover:bg-muted/50 cursor-pointer">
                     <TableCell>

@@ -51,14 +51,7 @@ export function ProfileSection() {
 	};
 
 	if (!user?.name) {
-		return (
-			<Link
-				href="/login"
-				className="text-sm hover:text-primary transition-colors"
-			>
-				Login
-			</Link>
-		);
+		return null
 	}
 
 	return (

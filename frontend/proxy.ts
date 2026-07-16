@@ -20,5 +20,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/", "/problem/:path*"],
+	matcher: ["/", "/problem/:path*","/create-problem"],
 };
